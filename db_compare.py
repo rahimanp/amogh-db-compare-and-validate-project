@@ -13,12 +13,16 @@ from typing import Dict, List, Tuple
 
 @dataclass(frozen=True)
 class DbObject:
+    """Represents a database object definition from sqlite_master."""
+
     obj_type: str
     name: str
     sql: str
 
 
 def _normalize_sql(sql: str) -> str:
+    """Normalize SQL for stable comparisons across formatting differences."""
+
     if not sql:
         return ""
     compact = re.sub(r"\s+", " ", sql).strip().rstrip(";")
@@ -52,6 +56,8 @@ def _load_versions(connection: sqlite3.Connection) -> Dict[str, int]:
 
 
 def compare_databases(source_db: str, target_db: str) -> Dict[str, object]:
+    """Compare two SQLite databases and return object and version differences."""
+
     with sqlite3.connect(source_db) as source_conn, sqlite3.connect(target_db) as target_conn:
         source_objects = _load_objects(source_conn)
         target_objects = _load_objects(target_conn)

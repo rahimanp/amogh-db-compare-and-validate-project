@@ -8,6 +8,8 @@ from db_compare import compare_databases
 
 class DbCompareTests(unittest.TestCase):
     def _create_db(self, setup_sql: str, user_version: int = 0, application_id: int = 0) -> Path:
+        """Create a temporary SQLite DB with schema/version metadata and auto-cleanup."""
+
         temp_file = tempfile.NamedTemporaryFile(suffix=".db", delete=False)
         temp_file.close()
         db_path = Path(temp_file.name)
