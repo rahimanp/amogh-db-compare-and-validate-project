@@ -21,7 +21,10 @@ class DbObject:
 
 
 def _normalize_sql(sql: str) -> str:
-    """Normalize SQL for stable comparisons across formatting differences."""
+    """Normalize SQL for stable comparisons across formatting differences.
+
+    Note: this performs case-insensitive matching by lowercasing SQL text.
+    """
 
     if not sql:
         return ""
