@@ -30,6 +30,8 @@ def _normalize_sql(sql: str) -> str:
 
 
 def _load_objects(connection: sqlite3.Connection) -> Dict[Tuple[str, str], DbObject]:
+    """Load user-defined schema objects keyed by (type, name)."""
+
     cursor = connection.execute(
         """
         SELECT type, name, COALESCE(sql, '')
@@ -45,6 +47,8 @@ def _load_objects(connection: sqlite3.Connection) -> Dict[Tuple[str, str], DbObj
 
 
 def _load_versions(connection: sqlite3.Connection) -> Dict[str, int]:
+    """Load key SQLite PRAGMA version metadata values."""
+
     user_version = connection.execute("PRAGMA user_version").fetchone()[0]
     schema_version = connection.execute("PRAGMA schema_version").fetchone()[0]
     application_id = connection.execute("PRAGMA application_id").fetchone()[0]
