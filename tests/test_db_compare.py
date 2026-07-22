@@ -25,7 +25,7 @@ class DbCompareTests(unittest.TestCase):
         self.addCleanup(lambda: db_path.unlink(missing_ok=True))
         return db_path
 
-    def test_equal_databases_are_reported_as_equal(self):
+    def test_identical_databases_are_equal(self):
         schema = """
         CREATE TABLE users(id INTEGER PRIMARY KEY, name TEXT NOT NULL);
         CREATE VIEW active_users AS SELECT id, name FROM users;
