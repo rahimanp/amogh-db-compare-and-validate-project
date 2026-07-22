@@ -14,10 +14,11 @@ class DbCompareTests(unittest.TestCase):
         temp_file.close()
         db_path = Path(temp_file.name)
 
+        if not isinstance(user_version, int) or not isinstance(application_id, int):
+            raise TypeError("user_version and application_id must be integers")
+
         with sqlite3.connect(db_path) as conn:
             conn.executescript(setup_sql)
-            if not isinstance(user_version, int) or not isinstance(application_id, int):
-                raise TypeError("user_version and application_id must be integers")
             conn.execute(f"PRAGMA user_version = {user_version}")
             conn.execute(f"PRAGMA application_id = {application_id}")
 
