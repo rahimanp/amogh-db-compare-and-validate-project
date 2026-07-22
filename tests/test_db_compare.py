@@ -16,8 +16,10 @@ class DbCompareTests(unittest.TestCase):
 
         with sqlite3.connect(db_path) as conn:
             conn.executescript(setup_sql)
-            conn.execute(f"PRAGMA user_version = {user_version}")
-            conn.execute(f"PRAGMA application_id = {application_id}")
+            safe_user_version = int(user_version)
+            safe_application_id = int(application_id)
+            conn.execute(f"PRAGMA user_version = {safe_user_version}")
+            conn.execute(f"PRAGMA application_id = {safe_application_id}")
 
         self.addCleanup(lambda: db_path.unlink(missing_ok=True))
         return db_path
